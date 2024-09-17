@@ -10,8 +10,15 @@ postRouter.get("/", async function (req, res) {
 
 postRouter.get("/:postId", async function (req, res) {
   const postId = req.params.postId;
+  const { judul, tulisan, user_id } = req.body;
   const [result, response] = await database.execute("SELECT id FROM post WHERE id = ?", [postId]);
-  res.json({ posts: result });
+  res.json({
+    message: `Detail post dengan id ${postId}`,
+    posts: result,
+    judul: judul,
+    tulisan: tulisan,
+    user_id: user_id,
+  });
 });
 
 postRouter.post("/", async function (req, res) {
@@ -23,7 +30,7 @@ postRouter.post("/", async function (req, res) {
 postRouter.delete("/:postId", async function (req, res) {
   const postId = req.params.postId;
   const [result, response] = await database.execute("DELETE FROM post WHERE id = ?", [postId]);
-  res.json({ result, message: "post berhasil dihapus" });
+  res.json({ result, message: `post dengan id ${postId} berhasil dihapus` });
 });
 
 export default postRouter;
