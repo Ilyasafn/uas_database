@@ -2,7 +2,7 @@ create database uas_database;
 use uas_database;
 
 create table user (
-    id int() primary key auto_increment,
+    id int primary key auto_increment,
     nama varchar(255),
     telepon varchar(12)
 );
