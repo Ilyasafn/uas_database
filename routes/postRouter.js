@@ -10,27 +10,30 @@ postRouter.get("/", async function (req, res) {
 
 postRouter.get("/:postId", async function (req, res) {
   const postId = req.params.postId;
-  const { judul, tulisan, user_id } = req.body;
-  const [result, response] = await database.execute("SELECT id FROM post WHERE id = ?", [postId]);
+  const [result, response] = await database.execute("SELECT * FROM post WHERE id = ?", [postId]);
   res.json({
-    message: `Detail post dengan id ${postId}`,
+    postId: postId,
     posts: result,
-    judul: judul,
-    tulisan: tulisan,
-    user_id: user_id,
+    message: `Detail post dengan id ${postId}`,
   });
 });
 
 postRouter.post("/", async function (req, res) {
   const { judul, tulisan, user_id } = req.body;
   const [result, response] = await database.execute("INSERT INTO post (judul, tulisan, user_id) VALUES (?,?,?) ", [judul, tulisan, user_id]);
-  res.json({ result, message: "post baru berhasil ditambahkan" });
+  res.json({
+    message: "post baru berhasil ditambahkan",
+    result,
+  });
 });
 
 postRouter.delete("/:postId", async function (req, res) {
   const postId = req.params.postId;
   const [result, response] = await database.execute("DELETE FROM post WHERE id = ?", [postId]);
-  res.json({ result, message: `post dengan id ${postId} berhasil dihapus` });
+  res.json({
+    message: `post dengan id ${postId} berhasil dihapus`,
+    result,
+  });
 });
 
 export default postRouter;
